@@ -17,6 +17,7 @@ router.post('/', function (req, res, next) {
     })
     .then(user => {
       res.status(201).send(JSON.stringify({
+        status: res.statusCode,
         apiKey: user.apiKey
       }))
     })
