@@ -28,17 +28,17 @@ describe('api', () => {
         expect(response.statusCode).toBe(201)
       });
     });
-    test('should return the api key of the user upon registering', () => {
-      let params = {
-        'email': 'mou@ballsrgreat.com',
-        'password': 'password',
-        'password_confirmation': 'password'
-      }
-      return request(app).post("/api/v1/users").send(params)
-      .then(response => {
-        expect(response.body['api_key']).not.toBe(null)
-        expect(response.body['api_key'].length).toBeGreaterThan(0);
-      })
-    })
+    // test('should return the api key of the user upon registering', () => {
+    //   let params = {
+    //     'email': 'mou@ballsrgreat.com',
+    //     'password': 'password',
+    //     'password_confirmation': 'password'
+    //   }
+    //   return request(app).post("/api/v1/users").send(params)
+    //   .then(response => {
+    //     expect(response.body['api_key']).not.toBe(null)
+    //     expect(response.body['api_key'].length).toBeGreaterThan(0);
+    //   })
+    // })
   });
 });
