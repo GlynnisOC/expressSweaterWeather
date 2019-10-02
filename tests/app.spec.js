@@ -25,19 +25,19 @@ describe('api', () => {
   describe('Test POST /api/v1/users path', () => {
     test('should return a 201 status', () => {
       return request(app).post("/api/v1/users").then(response => {
-        expect(response.status).toBe(201)
+        expect(response.statusCode).toBe(201)
       });
     });
     test('should return the api key of the user upon registering', () => {
       let params = {
         'email': 'mou@ballsrgreat.com',
-        'password': 'password'
+        'password': 'password',
         'password_confirmation': 'password'
       }
       return request(app).post("/api/v1/users").send(params)
       .then(response => {
         expect(response.body['api_key']).not.toBe(null)
       })
-    }
+    })
   });
 });
