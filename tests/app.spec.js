@@ -37,6 +37,7 @@ describe('api', () => {
       return request(app).post("/api/v1/users").send(params)
       .then(response => {
         expect(response.body['api_key']).not.toBe(null)
+        expect(response.body['api_key'].length).toBeGreaterThan(0);
       })
     })
   });
