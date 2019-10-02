@@ -1,24 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
-var user = require('../../../models').User
-
-const secureRandom = require('secure-random')
+var User = require('../../../models').User
+const uuid = require('uuidv4').default;
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 /* POST user account creation */
 router.post('/', function (req, res, next) {
   res.setHeader("Content-type", "application/json")
-  user.create({
-    email: req.params.email,
-    password_digest: req.params.password,
-    api_key: secureRandom(10, {type: 'Uint8Array'}),
-  })
-  .then(user => {
-    res.status(201).send(user.api_key)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({error})
+  bcrypt.hash(req.params.password, saltRounds, function(err, hash) {
+    User.create({
+      email: req.params.email,
+      passwordDigest: req.params.password,
+      apiKey: uuid()
+    })
+    .then(user => {
+      res.status(201).send(JSON.stringify({
+        apiKey: user.apiKey
+      }))
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({error})
+    })
   })
 });
 
