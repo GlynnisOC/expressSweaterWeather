@@ -11,10 +11,10 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
-      password_digest: {
+      passwordDigest: {
         type: Sequelize.STRING
       },
-      api_key: {
+      apiKey: {
         type: Sequelize.STRING
       },
       createdAt: {
