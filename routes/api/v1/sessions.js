@@ -5,19 +5,19 @@ const bcrypt = require('bcrypt');
 
 router.post("/", function (req, res, next) {
   res.setHeader("Content-type", "application/json")
+  if (req.body.email && req.body.password)
   user.findOne({
-    email: req.body.email
+    where: {email: req.body.email}
   })
   .then(user => {
-    
-
-
-
-    if (bcrypt.compareSync(req.body.password, user.passwordDigest)) {
+    trueUser = (bcrypt.compareSync(req.body.password, user.passwordDigest))
+    if (trueUser) {
       res.status(200).send(JSON.stringify({
         status: res.statusCode,
         apiKey: user.apiKey
       }))
+    } else {
+      res.status(401).send(JSON.stringify("Access Denied"))
     }
   })
   .catch(error => {
