@@ -1,6 +1,9 @@
 var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../app');
+const bcrypt = require('bcrypt');
+var User = require('../models').User;
+
 var pry = require('pryjs')
 
 describe('api', () => {
@@ -17,11 +20,10 @@ describe('api', () => {
 
   describe('Test POST /api/v1/sessions path', () => {
     test('should return a 200 status and api key', () => {
-      let params = {
-        email: 'mou@ballsrgreat.com',
-        password: 'password'
-      }
-      return User.create({
+      let email = "mou@ballsrgreat.com"
+      let password = 'password'
+
+      user = User.create({
         email: 'mou@ballsrgreat.com',
         password: 'password',
         apiKey: 'eawdfsaojewa7873'
@@ -29,10 +31,12 @@ describe('api', () => {
       .then(user => {
         return request(app)
         .post("/api/v1/sessions")
-        .send(params)
+        .send({email: email, password: password})
       })
       .then(response => {
         expect(response.statusCode).toBe(200)
+        expect(response.body['apiKey']).not.toBe(null)
+        expect(response.body['apiKey'].length).toBe(user.apiKey)
       })
     })
   });
