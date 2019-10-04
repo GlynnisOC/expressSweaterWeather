@@ -24,21 +24,30 @@ describe('api', () => {
   });
 
   describe('Test POST /api/v1/users path', () => {
-    test('should return a 201 status', () => {
-      return request(app).post("/api/v1/users").then(response => {
-        expect(response.statusCode).toBe(201)
-      });
-    });
-    test('should return the api key of the user upon registering', () => {
-      let params = {
+    test('should return a 201', () => {
+      return request(app)
+      .post("/api/v1/users")
+      .send({
         'email': 'mou@ballsrgreat.com',
         'password': 'password',
         'password_confirmation': 'password'
-      }
-      return request(app).post("/api/v1/users").send(params)
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(201);
+      })
+    });
+
+    test('should return users api key', () => {
+      return request(app)
+      .post("/api/v1/users")
+      .send({
+        'email': 'mou@ballsrgreat.com',
+        'password': 'password',
+        'password_confirmation': 'password'
+      })
       .then(response => {
         expect(response.body['apiKey']).not.toBe(null)
-        expect(response.body['apiKey'].length).toBeGreaterThan(0);
+        expect(response.body['apiKey'].length).toBeGreaterThan(1);
       })
     })
   });
