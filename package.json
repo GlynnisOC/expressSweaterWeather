@@ -14,6 +14,7 @@
     "express": "~4.16.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "morgan-body": "^2.4.8",
     "pg": "^7.12.1",
     "pryjs": "^1.0.3",
     "secure-random": "^1.1.2",
