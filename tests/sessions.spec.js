@@ -36,7 +36,7 @@ describe('api', () => {
       .then(response => {
         expect(response.statusCode).toBe(200)
         expect(response.body['apiKey']).not.toBe(null)
-        expect(response.body['apiKey'].length).toBe(user.apiKey)
+        expect(response.body['apiKey']).toBe(user.apiKey)
       })
     })
   });

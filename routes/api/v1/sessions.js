@@ -1,19 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var user = require('../../../models').User
+var User = require('../../../models').User
 const bcrypt = require('bcrypt');
 
 router.post("/", function(req, res, next) {
   res.setHeader("Content-Type", "application/json")
   if (req.body.email && req.body.password) {
-    user.findOne({
+    User.findOne({
       where: {
         email: req.body.email
       }
     })
     .then(user => {
       trueUser = bcrypt.compareSync(req.body.password, user.passwordDigest)
-      console.log(req.body.password, user.passwordDigest)
         if (trueUser) {
           res.status(200).send({
             apiKey: user.apiKey
