@@ -8,7 +8,10 @@ var saltRounds = 10;
 
 router.get("/", function(req, res, next) {
   if (req.body.apiKey) {
-    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}")
+    User.findOne({
+      where: {apiKey: req.body.apiKey}
+    });
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}&key=${}")
   } else {
     res.status(401).send("Unauthorized")
   }
