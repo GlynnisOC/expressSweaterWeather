@@ -12,7 +12,6 @@ router.post("/", function(req, res, next) {
       }
     })
     .then(user => {
-      console.log(user.email, user.passwordDigest)
       trueUser = bcrypt.compareSync(req.body.password, user.passwordDigest)
         if (trueUser) {
           res.status(200).send({
