@@ -11,7 +11,11 @@ router.get("/", function(req, res, next) {
     User.findOne({
       where: {apiKey: req.body.apiKey}
     });
-    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}&key=${}")
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}&key=${process.env.GOOGLE-API-KEY}")
+    .then(coords => {
+      lat: response.results.geometry.location.lat,
+      long: response.results.geometry.location.lng
+    }
   } else {
     res.status(401).send("Unauthorized")
   }
