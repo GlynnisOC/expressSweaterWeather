@@ -7,7 +7,11 @@ var bcrypt = require('bcrypt');
 var saltRounds = 10;
 
 router.get("/", function(req, res, next) {
-
+  if (req.body.apiKey) {
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}")
+  } else {
+    res.status(401).send("Unauthorized")
+  }
 });
 
 module.exports = router;
