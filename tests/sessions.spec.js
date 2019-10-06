@@ -2,6 +2,8 @@ var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../app');
 const bcrypt = require('bcrypt');
+var saltRounds = 10;
+
 var User = require('../models').User;
 
 var pry = require('pryjs')
@@ -24,8 +26,8 @@ describe('api', () => {
       let password = 'password'
 
       user = User.create({
-        email: 'mou@ballsrgreat.com',
-        password: 'password',
+        email: email,
+        passwordDigest: bcrypt.hashSync(password, saltRounds),
         apiKey: 'eawdfsaojewa7873'
       })
       .then(user => {
