@@ -21,11 +21,12 @@ router.post("/", function(req, res, next) {
       })
       .catch(error => {
         res.status(500).send({error})
-      });
+      })
     });
   } else {
     res.status(500).send("Account cannot be created")
   }
 });
+
 
 module.exports = router;
