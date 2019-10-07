@@ -37,22 +37,24 @@ var darkskyOptions = {
 router.get("/", function(req, res, next) {
   res.setHeader("Content-Type", "application/json")
   if (req.body.apiKey) {
-<<<<<<< HEAD
     User.findOne({
       where: {apiKey: req.body.apiKey}
     })
-    let address = req.query.location
-    let key = process.env.GOOGLE-API-KEY
-    return fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}")
+    .then(user => {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}&key=${process.env.GOOGLE_API_KEY}`)
     .then(response => response.json())
-    .then(result => console.log(result))
-  // })
-=======
-    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}")
->>>>>>> parent of f1d1194... Add keys for fetch calls from google and darksky in order to provide forecast
+    .then(result => {
+      coords = {
+      lat: result.results[0].geometry.location.lat,
+      long: result.results[0].geometry.location.lng
+    }
+    // console.log(coords)
+  })
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}`)
   } else {
     res.status(401).send("Unauthorized")
   }
 });
+
 
 module.exports = router;
