@@ -2,34 +2,50 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../../../models').User;
-var uuid = require('uuidv4').default;
-// var bcrypt = require('bcrypt');
-// var saltRounds = 10;
 const fetch = require("node-fetch");
+var http = require("http");
+require('dotenv').config();
+
+
+var geocodeOptions = {
+  host: 'https://maps.googleapis.com/maps/api/geocode/json',
+  path: "?address=${req.query.location}&key=${process.env.GOOGLE-API-KEY}",
+  method: 'GET'
+};
+
+var darkskyOptions = {
+  host: "https://api.darksky.net/forecast",
+  path: "/${process.env.DARKSKY-API-KEY}/${lat},${long}",
+  method: 'GET'
+}
+
+// function getJSON(options, cb) {
+//   http.request(geocodeOptions, function(res) {
+//     var body = '';
+//
+//     res.on('data', function(chunk) {
+//       body+= chunk;
+//     });
+//
+//     res.on('end', function() {
+//       var coords = JSON.parse(body);
+//       console.log(coords);
+//     })
+//   }).end()
+// }
 
 router.get("/", function(req, res, next) {
+  res.setHeader("Content-Type", "application/json")
   if (req.body.apiKey) {
     User.findOne({
       where: {apiKey: req.body.apiKey}
-    });
-    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}&key=${process.env.GOOGLE-API-KEY}")
+    })
+    let address = req.query.location
+    let key = process.env.GOOGLE-API-KEY
+    return fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}")
     .then(response => response.json())
-    .then(coords => {
-      let lat = response.results[0].geometry.location.lat
-      let long = response.results[0].geometry.location.lng
-
-      fetch("https://api.darksky.net/forecast/${process.env.DARKSKY-API-KEY}/${lat},${long}")
-      .then(dsResponse => dsResponse.json())
-      .then(response => {
-        res.status(200).send(JSON.stringify({
-          // console.log(res)
-          location: res.location,
-          current: res.currently,
-          hourly: res.hourly,
-          daily: res.daily
-        }))
-      })
-    });
+    .then(result => console.log(result))
+  // })
   } else {
     res.status(401).send("Unauthorized")
   }
