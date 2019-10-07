@@ -26,7 +26,6 @@ router.get("/", function(req, res, next) {
       lat: result.results[0].geometry.location.lat,
       long: result.results[0].geometry.location.lng
     }
-    // console.log(coords)
   })
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}`)
   } else {
