@@ -37,6 +37,7 @@ var darkskyOptions = {
 router.get("/", function(req, res, next) {
   res.setHeader("Content-Type", "application/json")
   if (req.body.apiKey) {
+<<<<<<< HEAD
     User.findOne({
       where: {apiKey: req.body.apiKey}
     })
@@ -46,6 +47,9 @@ router.get("/", function(req, res, next) {
     .then(response => response.json())
     .then(result => console.log(result))
   // })
+=======
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=${req.query.location}")
+>>>>>>> parent of f1d1194... Add keys for fetch calls from google and darksky in order to provide forecast
   } else {
     res.status(401).send("Unauthorized")
   }
